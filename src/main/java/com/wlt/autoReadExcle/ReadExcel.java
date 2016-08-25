@@ -34,14 +34,20 @@ public class ReadExcel {
         }
         return null;
     }
+    public static XSSFSheet getSheet(XSSFWorkbook xssfWorkbook){
+
+        return null;
+    }
     //读取Excle表的字段，即就是得到所有的列，用这些名字来创建表字段
-    public List<String> readExcelColumn(String path) throws IOException {
-        //得到XSSWorkbook类型文件流
+    public List<String> readExcelColumn(XSSFSheet xssfSheet) throws IOException {
+        /*//得到XSSWorkbook类型文件流
         XSSFWorkbook xssfWorkbook = getXSSFWorkbook(path);
         //读取第一张表
         XSSFSheet xssfSheet = xssfWorkbook.getSheetAt(0);
+        System.out.println(xssfSheet.getSheetName());*/
         //读取第一行数据
         XSSFRow row = xssfSheet.getRow(0);
+        System.out.println("xssfSheet.getSheetName() : "+xssfSheet.getSheetName());
         //声明一个表格单元的数组
         List<String> cellList = new ArrayList<String>();
         //获取表的列数
@@ -54,21 +60,23 @@ public class ReadExcel {
         return cellList;
     }
     //读取Excle中的数据
-    public ArrayList readExcleData(String path) {
-        //得到XSSWorkbook类型文件流
+    public ArrayList readExcleData( XSSFSheet xssfSheet) {
+        /*//得到XSSWorkbook类型文件流
         XSSFWorkbook xssfWorkbook = getXSSFWorkbook(path);
         //读取第一张表
-        XSSFSheet xssfSheet = xssfWorkbook.getSheetAt(0);
-        //因为表里面可能不止一行数据，所以初始化一个存放List类型数据的List，来保存每一行的数据集合
-        ArrayList<List> listcolumn = new ArrayList<List>();
+        XSSFSheet xssfSheet = null;*/
+
         // 读取表内容，以表的数量做为循环次数限制
-        for (int numSheet = 0; numSheet < xssfWorkbook.getNumberOfSheets(); numSheet++) {
+        //for (int numSheet = 0; numSheet < xssfWorkbook.getNumberOfSheets(); numSheet++) {
             //读取整张表
-            xssfSheet = xssfWorkbook.getSheetAt(numSheet);
+           /* System.out.println(numSheet);
+            xssfSheet = xssfWorkbook.getSheetAt(numSheet);*/
             //判断是否含有数据
             if (xssfSheet == null) {
-                continue;
+                return null;
             }
+        //因为表里面可能不止一行数据，所以初始化一个存放List类型数据的List，来保存每一行的数据集合
+        ArrayList<List> listcolumn = new ArrayList<List>();
             //循环读取每一行的数据
             for (int rowNum = 1; rowNum <= xssfSheet.getLastRowNum(); rowNum++) {
                 //获得整行数据
@@ -85,10 +93,12 @@ public class ReadExcel {
                     }
                     //每行的数据集合，添加到表的list集合里面
                     listcolumn.add(listData);
+                    System.out.println(listcolumn);
                 }
             }
             return listcolumn;
-        }
-        return null;
+            //System.out.println(listcolumn);
+        //}
+        //return null;
     }
 }
